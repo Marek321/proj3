@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <limits.h>
+#include <math.h>
 
 double plus(double opA, double opB) {
   //DBL_MAX
@@ -36,7 +37,7 @@ double div(double opA, double opB) {
   else if (opB == 1)
     return opB;
   else if (opA == 0)
-    return 0;
+    return NAN;
   
   return opA / opB;
 }

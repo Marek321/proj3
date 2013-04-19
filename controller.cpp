@@ -10,6 +10,12 @@ typedef struct operation {
     double operandB;
 } TOperation;
 
+enum eCodes {
+    EOK = 0,
+    ZERO_DIVISION,
+    INVALID_MATHEXP
+};
+
 
 /**
  * Zpracuje předaný řetezec jako matematický výraz, vyhodnotí jej a vrácí
@@ -35,21 +41,15 @@ int eval(TOperation *op, double *result);
  */
 int isValidOperation(char operation);
 
-int main(void) {
+int main(int argc, char** argv) {
 
-    execute("1    + 2");
-    execute("     1 -    2");
-    execute("1   1  + 2");
-    execute("3.3    * 4");
-    execute("1    / 0");
-    execute("1    % 2");
-    execute("1   !");
-    execute("1    ! 2");
-    execute("1    ^ 2");
-    execute("1    ^");
-    execute("1.1");
-    execute("1daf");
-    execute("1! 2 3");
+    execute("2^3");
+    return 0;
+    
+    if (argc == 1)
+        return 1;
+    
+    execute(argv[1]);
 }
 
 double execute(const char* expression) {
@@ -74,7 +74,7 @@ double execute(const char* expression) {
     }
 
     op.operation = pEnd[0]; //nacti operaci (ascii hodnotu znaku)
-    if (isValidOperation(op.operation) == 0){
+    if (isValidOperation(op.operation) == 0) {
         return NAN;
     }
     pEnd++; //preskoc jiz prectenou operaci
@@ -85,21 +85,24 @@ double execute(const char* expression) {
     } else {
         op.operandB = NAN; //jinak vyhodnot operandB jako NAN
     }
-    
-    if(strlen(pEnd) > 0) //nekorektni vyraz
+
+    if (strlen(pEnd) > 0) //nekorektni vyraz
         return NAN;
 
-    /*
+    
     printf("operand A: %lf\n", op.operandA);
     printf("operation: %c\n", op.operation);
     printf("operand B: %lf\n", op.operandB);
     printf("-------------\n");
-     */
+     
 
     double result;
-    
+
     int errcode = eval(&op, &result);
-    
+    printf("vysledek = %lf\n------\n", result);
+
+    //if (errcode != 0 && result == NAN) => neplatny vyraz
+
     return result;
 }
 
@@ -114,10 +117,29 @@ int isValidOperation(char op) {
     return 0;
 }
 
+int eval(TOperation *op, double *result) {
 
-int eval(TOperation *op, double *result){
-    
-    
-    
-    return 0;
+    if (op->operation == '+') {
+        *result = plus(op->operandA, op->operandB);
+    } else if (op->operation == '-') {
+        *result = minus(op->operandA, op->operandB);
+    } else if (op->operation == '*') {
+        *result = mul(op->operandA, op->operandB);
+    } else if (op->operation == '/') {
+        *result = div(op->operandA, op->operandB);
+        if (isnan(*result))
+            return ZERO_DIVISION;
+    } else if (op->operation == '%') {
+        *result = mod(op->operandA, op->operandB);
+    } else if (op->operation == '!') {
+
+        if(!isnan(op->operandB)) {
+            *result = NAN;
+            return INVALID_MATHEXP;
+        }
+        *result = fact(op->operandA);
+    } else if(op->operation == '^') {
+        *result = pow(op->operandA, op->operandB);
+    }
+return 0;
 }
