@@ -204,4 +204,4 @@ int eval(TOperation *op, double *result) {
     return EOK;
 
 }
-/*** Konec souboru controller.cpp */
+/*** Konec souboru controller.cpp ***/

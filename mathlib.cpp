@@ -126,4 +126,4 @@ double pow(double base, unsigned int exp) {
   return sum;
 }
 
-/*** Konec souboru matlib.cpp */
+/*** Konec souboru matlib.cpp ***/

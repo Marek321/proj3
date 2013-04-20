@@ -29,3 +29,5 @@ double execute(const char* expression, int *errcode);
 
 
 #endif
+
+/*** Konec souboru controller.h ***/

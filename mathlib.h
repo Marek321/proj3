@@ -65,4 +65,4 @@ double pow(double base, unsigned int exp);
 
 #endif
 
-/*** Konec souboru matlib.cpp */
+/*** Konec souboru matlib.cpp ***/
