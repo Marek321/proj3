@@ -1,15 +1,32 @@
+/**
+ * Kolekce funkcí určených pro vyhodnocení řetezce jako matematický výraz
+ * obsahující binární či unánrí operace. 
+ * 
+ * @file controller.cpp
+ * @author David Kovařík ( xkovar66 ) 
+ * @date 19. 4. 2013
+ * @brief Kolekce funcí pro vyhodnocení matematického výrazu.
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include "mathlib.h"
 
+/**
+ * Struktura popisující matematickou operaci (binární | unární)
+ */
 typedef struct operation {
     int operation;
     double operandA;
     double operandB;
 } TOperation;
+double execute(const char* expression);
 
+/**
+ * Chybové stavy  
+ */
 enum eCodes {
     EOK = 0,
     ZERO_DIVISION,
@@ -21,15 +38,16 @@ enum eCodes {
  * Zpracuje předaný řetezec jako matematický výraz, vyhodnotí jej a vrácí
  * číselnou hodnotu výsledku
  * @param expression Řetezec obsahující matematický výraz
+ * @param errcode Chybový kód vyhodnocování operacew
  * @return Výsledek výrazu
  */
-double execute(const char* expression);
+double execute(const char* expression, int *errcode);
 
 /**
  * @brief Vyhodnotí matematickou operaci rozdělenou ve struktuře typu TOperation
  * @param op Ukazatel na sturkturu popisující operaci
  * @param result Ukazatel, kam se uloží výsledek
- * @return 0 pokude se operace podařila jinak číslo větší než 0
+ * @return Vrací EOK pokud se operace podařila jinak číslo větší než 0
  */
 int eval(TOperation *op, double *result);
 
@@ -41,23 +59,43 @@ int eval(TOperation *op, double *result);
  */
 int isValidOperation(char operation);
 
-int main(int argc, char** argv) {
+/**
+ * Zkontroluje, zda číslo obsahje desetinnou část (různou od 0)
+ * @param x Hodnota, která se má ověřit
+ * @return Vrací 1, pokud se číslo skládá jen z celé části, jinak 0.
+ */
+int isIntiger(double x);
 
-    execute("2^3");
-    return 0;
-    
+int main(int argc, char** argv) { 
+
     if (argc == 1)
         return 1;
+
+
+    int errcode;
+
+    double result = execute(argv[1], &errcode);
     
-    execute(argv[1]);
+    /*
+     * Pro chybuje potřeba testovat jak result, tak errcode.
+     * (result == NAN && errcode == 0), nemusí implikovat neplatný matematický
+     * výraz (například ln(-1) == NAN, přesto výraz je platný)
+     */
+    if (isnan(result) && errcode != 0) {
+        printf("Neplatny matematicky vyraz\n");
+        return errcode;
+    }
+
+    printf("vyraz: %s\n", argv[1]);
+    printf("vysledek %lf\n-------\n", result);
+
+
 }
 
-double execute(const char* expression) {
+double execute(const char* expression, int *errcode) {
 
     TOperation op; //struktura popisujici operaci
     int strlenght; //delka (zbytku) vyrazu
-
-    printf("Vyraz: %s\n", expression);
 
     char *pEnd; //pocatek vyrazu, ktery jeste nebyl vyhodnocen    
     op.operandA = strtod(expression, &pEnd);
@@ -89,19 +127,10 @@ double execute(const char* expression) {
     if (strlen(pEnd) > 0) //nekorektni vyraz
         return NAN;
 
-    
-    printf("operand A: %lf\n", op.operandA);
-    printf("operation: %c\n", op.operation);
-    printf("operand B: %lf\n", op.operandB);
-    printf("-------------\n");
-     
 
     double result;
 
-    int errcode = eval(&op, &result);
-    printf("vysledek = %lf\n------\n", result);
-
-    //if (errcode != 0 && result == NAN) => neplatny vyraz
+    *errcode = eval(&op, &result);
 
     return result;
 }
@@ -111,35 +140,68 @@ int isValidOperation(char op) {
             || op == '!' || op == '^') {
         return 1;
     } else {
-        return 0;
+        return EOK;
     }
 
-    return 0;
+    return EOK;
+}
+
+int isIntiger(double x) {
+    if (x != (((int) x))) // hodnota x a pouze jeho cela cast je rozdilna
+        return 0;
+
+    return 1;
 }
 
 int eval(TOperation *op, double *result) {
 
-    if (op->operation == '+') {
-        *result = plus(op->operandA, op->operandB);
-    } else if (op->operation == '-') {
-        *result = minus(op->operandA, op->operandB);
-    } else if (op->operation == '*') {
-        *result = mul(op->operandA, op->operandB);
-    } else if (op->operation == '/') {
-        *result = div(op->operandA, op->operandB);
-        if (isnan(*result))
-            return ZERO_DIVISION;
-    } else if (op->operation == '%') {
-        *result = mod(op->operandA, op->operandB);
-    } else if (op->operation == '!') {
+    /* rozpoznani operace a provedeni patrickych kroku */
+    switch (op->operation) {
+        case '+': *result = plus(op->operandA, op->operandB);
+            break;
+        case '-': *result = minus(op->operandA, op->operandB);
+            break;
+        case '*': *result = mul(op->operandA, op->operandB);
+            break;
+        case '/': *result = div(op->operandA, op->operandB);
+            if (isnan(*result))
+                return ZERO_DIVISION;
+            break;
+        case '%':
+        {
+            //otestuje, zda jsou operandy cela cisla
+            if (isIntiger(op->operandA)) { //otestuje operandA
+                *result = NAN;
+                return INVALID_MATHEXP;
+            } else if (isIntiger(op->operandB)) {//otestuje operandB
+                *result = NAN;
+                return INVALID_MATHEXP;
+            }
 
-        if(!isnan(op->operandB)) {
-            *result = NAN;
-            return INVALID_MATHEXP;
+            *result = mod(op->operandA, op->operandB); //uloz vysledek
         }
-        *result = fact(op->operandA);
-    } else if(op->operation == '^') {
-        *result = pow(op->operandA, op->operandB);
+            break;
+        case '!':
+        {
+            if (op->operandA < 0) { //faktorial je definovan pro n > 0
+                *result = NAN;
+                return INVALID_MATHEXP;
+            }
+
+            if (!isnan(op->operandB)) { //operandB neni NAN => neplatny vyraz
+                *result = NAN;
+                return INVALID_MATHEXP;
+            }
+            *result = fact(op->operandA);
+
+        }
+            break;
+        case '^': *result = pow(op->operandA, op->operandB);
+            break;
+        default: return INVALID_MATHEXP;
     }
-return 0;
+
+    return EOK;
+
 }
+/*** Konec souboru controller.cpp */
