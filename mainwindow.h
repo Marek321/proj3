@@ -15,16 +15,19 @@ class GSCalculator : public QMainWindow
 public:
   explicit GSCalculator(QWidget *parent = 0);
   ~GSCalculator();
-  std::string displayed_string;
+  QString displayed_string;
   
 private:
   Ui::GSCalculator *ui;
+
+protected:
+  void keyPressEvent(QKeyEvent *event);
 
 private slots:
   void quit();
   void display();
   void Button_handle(char znak);
-  //void Button_solve();
+  void solve();
   void Button_0();
   void Button_1();
   void Button_2();

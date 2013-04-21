@@ -1,9 +1,9 @@
 /**
  * Kolekce funkcí určených pro vyhodnocení řetezce jako matematický výraz
- * obsahující binární či unánrí operace. 
- * 
+ * obsahující binární či unánrí operace.
+ *
  * @file controller.cpp
- * @author David Kovařík ( xkovar66 ) 
+ * @author David Kovařík ( xkovar66 )
  * @date 19. 4. 2013
  * @brief Kolekce funcí pro vyhodnocení matematického výrazu.
  *
@@ -25,7 +25,7 @@ typedef struct operation {
 double execute(const char* expression);
 
 /**
- * Chybové stavy  
+ * Chybové stavy
  */
 enum eCodes {
     EOK = 0,
@@ -55,7 +55,7 @@ int eval(TOperation *op, double *result);
  * Kontroluje, zda znak (jeho ascii hodnota) může reprezentovat matematickou
  * operaci
  * @param operation Znak identifikující operaci
- * @return Vrací 1 pokud znaku odpovídá matematická operace, jinak 0 
+ * @return Vrací 1 pokud znaku odpovídá matematická operace, jinak 0
  */
 int isValidOperation(char operation);
 
@@ -66,7 +66,8 @@ int isValidOperation(char operation);
  */
 int isIntiger(double x);
 
-int main(int argc, char** argv) { 
+/*
+int main(int argc, char** argv) {
 
     if (argc == 1)
         return 1;
@@ -75,12 +76,12 @@ int main(int argc, char** argv) {
     int errcode;
 
     double result = execute(argv[1], &errcode);
-    
-    /*
-     * Pro chybuje potřeba testovat jak result, tak errcode.
-     * (result == NAN && errcode == 0), nemusí implikovat neplatný matematický
-     * výraz (například ln(-1) == NAN, přesto výraz je platný)
-     */
+
+
+    // Pro chybuje potřeba testovat jak result, tak errcode.
+    // (result == NAN && errcode == 0), nemusí implikovat neplatný matematický
+    // výraz (například ln(-1) == NAN, přesto výraz je platný)
+
     if (isnan(result) && errcode != 0) {
         printf("Neplatny matematicky vyraz\n");
         return errcode;
@@ -88,16 +89,15 @@ int main(int argc, char** argv) {
 
     printf("vyraz: %s\n", argv[1]);
     printf("vysledek %lf\n-------\n", result);
-
-
 }
+*/
 
 double execute(const char* expression, int *errcode) {
 
     TOperation op; //struktura popisujici operaci
     int strlenght; //delka (zbytku) vyrazu
 
-    char *pEnd; //pocatek vyrazu, ktery jeste nebyl vyhodnocen    
+    char *pEnd; //pocatek vyrazu, ktery jeste nebyl vyhodnocen
     op.operandA = strtod(expression, &pEnd);
     strlenght = strlen(pEnd);
 
@@ -105,7 +105,7 @@ double execute(const char* expression, int *errcode) {
         return op.operandA; //pokud neni zadana operaci, vrat hodnotu ze vstupu
 
     for (int i = 0; i < strlenght; ++i) { //projdi cely retezec
-        if (pEnd[i] != ' ') { //preskoc mezery pred znakem operace 
+        if (pEnd[i] != ' ') { //preskoc mezery pred znakem operace
             pEnd += i;
             break;
         }
