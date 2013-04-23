@@ -78,7 +78,7 @@ double div(double opA, double opB) {
   if (opA == opB)
     return 1;
   else if (opB == 1)
-    return opB;
+    return opA;
   else if (opA == 0)
     return 0;
   

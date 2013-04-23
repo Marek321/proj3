@@ -90,7 +90,8 @@ int main(int argc, char** argv) {
     printf("vyraz: %s\n", argv[1]);
     printf("vysledek %lf\n-------\n", result);
 }
-*/
+
+ */
 
 double execute(const char* expression, int *errcode) {
 
@@ -170,10 +171,13 @@ int eval(TOperation *op, double *result) {
         case '%':
         {
             //otestuje, zda jsou operandy cela cisla
-            if (isIntiger(op->operandA)) { //otestuje operandA
+            if (!isIntiger(op->operandA)) { //otestuje operandA
                 *result = NAN;
                 return INVALID_MATHEXP;
-            } else if (isIntiger(op->operandB)) {//otestuje operandB
+            } else if (!isIntiger(op->operandB)) {//otestuje operandB
+                *result = NAN;
+                return INVALID_MATHEXP;
+            } else if (op->operandB == 0) {
                 *result = NAN;
                 return INVALID_MATHEXP;
             }
@@ -192,6 +196,7 @@ int eval(TOperation *op, double *result) {
                 *result = NAN;
                 return INVALID_MATHEXP;
             }
+            
             *result = fact(op->operandA);
 
         }
