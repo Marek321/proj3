@@ -21,6 +21,21 @@ GSCalculator::GSCalculator(QWidget *parent) :
 {
   ui->setupUi(this);
 
+  /*
+   * Oveření, jestli systém chce desetinou tečku, nebo čárku
+   *
+   */
+  int errcode;
+  double result=execute("1.0", &errcode); // výpočet
+  if (!(isnan(result) && errcode != 0))
+  {
+    this->decimal_delimiter='.';
+  }
+  else
+  {
+    this->decimal_delimiter=',';
+  }
+
   // nastavení obsluhy tlačítek
   connect(ui->ukoncit,SIGNAL(triggered()),this,SLOT(quit()));
   connect(ui->help,SIGNAL(triggered()),this,SLOT(open_help()));
@@ -101,6 +116,11 @@ void GSCalculator::Button_handle(char znak)
  */
 void GSCalculator::display()
 {
+  // pokud daný stroj používá jiný desetinný oddělovač než tečku, nahradit tečky tímto oddělovačem
+  if (this->decimal_delimiter != '.')
+  {
+    this->displayed_string=this->displayed_string.replace('.',this->decimal_delimiter);
+  }
   ui->Display->setText(this->displayed_string);
 }
 
@@ -279,6 +299,6 @@ void GSCalculator::Button_modulo()
  */
 void GSCalculator::Button_comma()
 {
-  Button_handle('.');
+  Button_handle(this->decimal_delimiter);
 }
 /*** konec souboru mainwindow.cpp ***/
