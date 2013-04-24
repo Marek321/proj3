@@ -1,13 +1,26 @@
+/**
+ * Definování třídy grafického rozhraní a deklarace jeho metod
+ *
+ * @file mainwindow.h
+ * @author Martin Očenáš (xocena04)
+ * @date 20.4.2013
+ * @brief Hlavičkový soubor pro řízení grafického rozhraní
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <string.h>
+#include "help.h"
 
 namespace Ui {
   class GSCalculator;
+  class Help;
 }
 
+/**
+ * @brief Třída grafického rozhraní
+ */
 class GSCalculator : public QMainWindow
 {
   Q_OBJECT
@@ -15,10 +28,11 @@ class GSCalculator : public QMainWindow
 public:
   explicit GSCalculator(QWidget *parent = 0);
   ~GSCalculator();
-  QString displayed_string;
+  QString displayed_string; //pomocná proměnná, pro práci s textem na display
   
 private:
   Ui::GSCalculator *ui;
+  Help *help;
 
 protected:
   void keyPressEvent(QKeyEvent *event);
@@ -47,6 +61,8 @@ private slots:
   void Button_factorial();
   void Button_modulo();
   void Button_comma();
+  void open_help();
 };
 
 #endif // MAINWINDOW_H
+/*** konec souboru mainwindow.h ***/

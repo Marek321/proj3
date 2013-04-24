@@ -15,10 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     mathlib.cpp \
-    controller.cpp
+    controller.cpp \
+    help.cpp
 
 HEADERS  += mainwindow.h \
     controller.h \
-    mathlib.h
+    mathlib.h \
+    help.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    help.ui
