@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Nastavení nápovědy
  *
  * @file help.cpp
@@ -25,4 +25,4 @@ Help::~Help()
   delete ui;
 }
 
-/*** konec souboru help.cpp ***
+/*** konec souboru help.cpp ***/
