@@ -4,6 +4,8 @@
  * a umocnění čísla přirozeným exponentem. I pro základní funkce +, -, *, / je 
  * vytvořena samostatná funkce pro vytvoření jednotného rozhraní.
  * 
+ * Funkce neošetřují některé kritické vstupy, ty musí být ošetřeny o úroveň výše.
+ * 
  * @file mathlib.cpp
  * @date 15. 4. 2013
  * @author David Kovařík ( xkovar66 )

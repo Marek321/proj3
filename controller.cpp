@@ -18,11 +18,19 @@
  * Struktura popisující matematickou operaci (binární | unární)
  */
 typedef struct operation {
-    int operation;
-    double operandA;
-    double operandB;
+    int operation; /**< Identifikátor operace */
+    double operandA; /**< První operand operace*/
+    double operandB; /**< Druhý operand operace (pokud není potřeba, měl by být nastaven na NAN) */
 } TOperation;
-double execute(const char* expression);
+
+/**
+ * Zpracuje předaný řetezec jako matematický výraz, vyhodnotí jej a vrácí
+ * číselnou hodnotu výsledku.
+ * @param expression Řetezec obsahující matematický výraz
+ * @param errcode Chybový kód vyhodnocování operacew
+ * @return Výsledek výrazu
+ */
+double execute(const char* expression, int *errcode);
 
 /**
  * Chybové stavy
@@ -36,7 +44,7 @@ enum eCodes {
 
 /**
  * Zpracuje předaný řetezec jako matematický výraz, vyhodnotí jej a vrácí
- * číselnou hodnotu výsledku
+ * číselnou hodnotu výsledku.
  * @param expression Řetezec obsahující matematický výraz
  * @param errcode Chybový kód vyhodnocování operacew
  * @return Výsledek výrazu

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "mathlib.h"
 #include <limits.h>
+#include <math.h>
 
 void testAdd(double opA, double opB, double result){
   double tmp;
@@ -102,6 +103,7 @@ int main(void) {
   printf("Modulo:\n");
   testMod(123,5,3);
   testMod(12, 5, 2);
+  testMod(0, 5, 0);
   //---------
   printf("Factiorial:\n");
   testFact(5,120);

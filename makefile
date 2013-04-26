@@ -25,7 +25,9 @@ controller.o: controller.cpp
 	$(CC) $(CFLAGS) -c controller.cpp -o controller.o
 	
 test: mathlib.o test.o
-	$(CC) $(CFLAGS) mathlib.o test.o -o test
+	@echo "Prekladam testovaci program"
+	gcc -std=c99 -pedantic -Wall -W -Wextra mathlib.o test.o -o test
+	./test
 	
 mathlib.o: mathlib.cpp mathlib.h
 	$(CC) $(CFLAGS) -c mathlib.cpp -o mathlib.o
