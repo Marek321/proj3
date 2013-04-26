@@ -1,5 +1,5 @@
 INPUT_FILE=./proj3.pro
-OUTPUT_DIR=vystup
+OUTPUT_DIR=bin
 
 all:
 	@if [ ! -d $(OUTPUT_DIR) ] ; then mkdir $(OUTPUT_DIR) ; fi
