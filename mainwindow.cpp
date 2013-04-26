@@ -148,7 +148,12 @@ void GSCalculator::solve()
   }
   else
   {
-    this->displayed_string=QString::number(result);
+      int precision = 14;
+    QLocale czech(QLocale::Czech, QLocale::CzechRepublic);
+    QString s = czech.toString(result, 'g', precision);  
+    
+    this->displayed_string=s;
+    //this->displayed_string=QString::number(result);
   }
   this->display();
 }
