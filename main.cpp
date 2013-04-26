@@ -10,6 +10,12 @@
 #include "mainwindow.h"
 #include <QApplication>
 
+/**
+ * @brief main Spouštějící funkce programu
+ * @param argc Počet argumentů - aplikace je nevyužívá
+ * @param argv Znění arugmentů - aplkace je nevyužívá
+ * @return Návratová hodnota programu 0 - bez chyby
+ */
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);

@@ -14,6 +14,9 @@ namespace Ui {
   class Help;
 }
 
+/**
+ * @brief Třída grafického rozhaní nápovědy
+ */
 class Help : public QWidget
 {
   Q_OBJECT

@@ -14,7 +14,12 @@
 #include "math.h"
 #include <QKeyEvent>
 
-// vytvoření objektu grafického rozhraní
+/**
+ * Vytvoření objektu grafického rozhraní hlavního okna
+ *
+ * @brief Objekt grafického rozhraní hlavního okna
+ * @param parent Rodič prvku
+ */
 GSCalculator::GSCalculator(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::GSCalculator)
@@ -23,7 +28,6 @@ GSCalculator::GSCalculator(QWidget *parent) :
 
   /*
    * Oveření, jestli systém chce desetinou tečku, nebo čárku
-   *
    */
   int errcode;
   double result=execute("1.0", &errcode); // výpočet

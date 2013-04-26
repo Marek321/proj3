@@ -28,8 +28,8 @@ class GSCalculator : public QMainWindow
 public:
   explicit GSCalculator(QWidget *parent = 0);
   ~GSCalculator();
-  QString displayed_string; //pomocná proměnná, pro práci s textem na display
-  char decimal_delimiter; //určuje, jestli konkrétní stroj pracuje s des. tečkou nebo čárkou
+  QString displayed_string; /**< pomocná proměnná, pro práci s textem na display */
+  char decimal_delimiter; /**< určuje, jestli konkrétní stroj pracuje s des. tečkou nebo čárkou */
 
 private:
   Ui::GSCalculator *ui;
