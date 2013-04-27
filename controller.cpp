@@ -12,7 +12,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <locale.h>
 #include "mathlib.h"
+
 
 /**
  * Struktura popisující matematickou operaci (binární | unární)
@@ -102,6 +104,8 @@ int main(int argc, char** argv) {
  */
 
 double execute(const char* expression, int *errcode) {
+    
+    setlocale(LC_ALL, "C");
 
     TOperation op; //struktura popisujici operaci
     int strlenght; //delka (zbytku) vyrazu
