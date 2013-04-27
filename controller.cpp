@@ -209,6 +209,13 @@ int eval(TOperation *op, double *result) {
                 return INVALID_MATHEXP;
             }
             
+            //otestuje, zda jsou operandy cela cisla
+            if (!isIntiger(op->operandA)) { //otestuje operandA
+                *result = NAN;
+                return INVALID_MATHEXP;
+            }
+            
+            
             *result = fact(op->operandA);
 
         }
