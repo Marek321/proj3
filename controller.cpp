@@ -199,7 +199,7 @@ int eval(TOperation *op, double *result) {
             break;
         case '!':
         {
-            if (op->operandA < 0) { //faktorial je definovan pro n > 0
+            if (op->operandA < 0) { //faktorial je definovan pro n > 0;
                 *result = NAN;
                 return INVALID_MATHEXP;
             }

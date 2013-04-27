@@ -148,12 +148,16 @@ void GSCalculator::solve()
   }
   else
   {
-    int precision = 16;
+  /*  int precision = 16;
     QLocale locale(QLocale::C);
     QString s = locale.toString(result, 'g', precision);  
+    s.replace(locale.groupSeparator(), "");  
     
     this->displayed_string=s;
-    //this->displayed_string=QString::number(result);
+   */
+      
+    QString s=QString::number(result,'g', 12);
+    this->displayed_string=s;
   }
   this->display();
 }
