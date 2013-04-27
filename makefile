@@ -27,6 +27,7 @@ controller.o: controller.cpp
 test: mathlib.o test.o
 	@echo "Prekladam testovaci program"
 	gcc -std=c99 -pedantic -Wall -W -Wextra mathlib.o test.o -o test
+	@rm -f mathlib.o test.o
 	./test
 	
 mathlib.o: mathlib.cpp mathlib.h

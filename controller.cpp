@@ -1,6 +1,6 @@
 /**
  * Kolekce funkcí určených pro vyhodnocení řetezce jako matematický výraz
- * obsahující binární či unánrí operace.
+ * obsahující binární či unární operace.
  *
  * @file controller.cpp
  * @author David Kovařík ( xkovar66 )
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
  */
 
 double execute(const char* expression, int *errcode) {
-    
+    //nastaviit lokali
     setlocale(LC_ALL, "C");
 
     TOperation op; //struktura popisujici operaci

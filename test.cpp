@@ -6,42 +6,42 @@
 
 void testAdd(double opA, double opB, double result){
   double tmp;
-  if (tmp=(plus(opA,opB)) == result) {
-    printf(" PASSED: %lf + %lf = %lf\n", opA, opB, result);
+  if ((tmp=(plus(opA,opB))) == result) {
+    printf(" PASSED: %f + %f = %f\n", opA, opB, result);
   } else {
-    printf(" FAILED: %lf + %lf; expected %lf => result %lf\n", opA, opB, result, tmp);
+    printf(" FAILED: %f + %f; expected %f => result %f\n", opA, opB, result, tmp);
   }
 }
 
 void testSub(double opA, double opB, double result){
   double tmp;
-  if (tmp=(minus(opA,opB)) == result) {
-    printf(" PASSED: %lf - %lf = %lf\n", opA, opB, result);
+  if ((tmp=(minus(opA,opB))) == result) {
+    printf(" PASSED: %f - %f = %f\n", opA, opB, result);
   } else {
-    printf(" FAILED: %lf - %lf; expected %lf => result %lf\n", opA, opB, result, tmp);
+    printf(" FAILED: %f - %f; expected %f => result %f\n", opA, opB, result, tmp);
   }
 }
 void testMul(double opA, double opB, double result){
   double tmp;
-  if (tmp=(mul(opA,opB)) == result) {
-    printf(" PASSED: %lf * %lf = %lf\n", opA, opB, result);
+  if ((tmp=(mul(opA,opB))) == result) {
+    printf(" PASSED: %f * %f = %f\n", opA, opB, result);
   } else {
-    printf(" FAILED: %lf * %lf; expected %lf => result %lf\n", opA, opB, result, tmp);
+    printf(" FAILED: %f * %f; expected %f => result %f\n", opA, opB, result, tmp);
   }
 }
 
 void testDiv(double opA, double opB, double result){
-  double tmp;
-  if (tmp=(div(opA,opB)) == result) {
-    printf(" PASSED: %lf / %lf = %lf\n", opA, opB, result);
+  double tmp = div(opA,opB);
+  if (tmp == result || (isnan(tmp) && isnan(result))) {
+    printf(" PASSED: %f / %f = %f\n", opA, opB, result);
   } else {
-    printf(" FAILED: %lf / %lf; expected %lf => result %lf\n", opA, opB, result, tmp);
+    printf(" FAILED: %f / %f; expected %f => result %f\n", opA, opB, result, tmp);
   }
 }
 
 void testMod(int opA, int opB, int result){
   int tmp;
-  if (tmp=(mod(opA,opB)) == result) {
+  if ((tmp=(mod(opA,opB))) == result) {
     printf(" PASSED: %d %% %d = %d\n", opA, opB, result);
   } else {
     printf(" FAILED: %d %% %d; expected %d => result %d\n", opA, opB, result, tmp);
@@ -60,9 +60,9 @@ void testFact(unsigned int opA, unsigned int result){
 void testPow(double opA, unsigned int exp, double result){
   double tmp= pow(opA, exp);
   if (tmp == result) {
-    printf(" PASSED: %lf^%d = %lf\n", opA,exp, result);
+    printf(" PASSED: %f^%d = %f\n", opA,exp, result);
   } else {
-    printf(" FAILED: %lf^%d ; expected %lf => result %d\n", opA, exp, result, tmp);
+    printf(" FAILED: %f^%d ; expected %f => result %f\n", opA, exp, result, tmp);
   }
 }
 
@@ -70,8 +70,7 @@ int main(void) {
   
   printf("Running tests:\n");
   printf("Addition:\n");
-  
-  double x;
+
   //---------
   testAdd(10,10,20);
   testAdd(0.0001,-0.0001,0);
@@ -93,8 +92,8 @@ int main(void) {
   testMul(1,-2,-2);
   testMul(234,-428,-100152);
   //---------
-  printf("Division: (0 jako vysledek indikuje chybu)\n");
-  testDiv(1,0,0);
+  printf("Division:\n");
+  testDiv(1,0,NAN);
   testDiv(125,5,25);
   testDiv(1000,-10,-100);
   testDiv(-12.5,-12.5,1);
