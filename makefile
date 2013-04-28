@@ -1,5 +1,6 @@
 INPUT_FILE=./proj3.pro
 OUTPUT_DIR=bin
+OUTPUT_FILE=proj3
 
 all:
 	@if [ ! -d $(OUTPUT_DIR) ] ; then mkdir $(OUTPUT_DIR) ; fi
@@ -10,7 +11,7 @@ clean:
 	@rm -rf $(OUTPUT_DIR)
 
 run:
-	$(OUTPUT_DIR)/proj3
+	$(OUTPUT_DIR)/$(OUTPUT_FILE)
 	
 CC = g++
 CFLAGS =-pedantic -Wall -W -Wextra
@@ -35,3 +36,11 @@ mathlib.o: mathlib.cpp mathlib.h
 	
 test.o: test.cpp
 	$(CC) $(CFLAGS) -c test.cpp -o test.o
+doc:
+	doxgen
+	
+install: $(OUTPUT_DIR)/$(OUTPUT_FILE)
+	cp $(OUTPUT_DIR)/$(OUTPUT_FILE) /usr/bin
+
+uninstall: 
+	rm -f /usr/bin/$(OUTPUT_FILE)
