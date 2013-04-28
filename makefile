@@ -1,6 +1,6 @@
 INPUT_FILE=./proj3.pro
 OUTPUT_DIR=bin
-OUTPUT_FILE=proj3
+OUTPUT_FILE=gscalc
 
 all:
 	@if [ ! -d $(OUTPUT_DIR) ] ; then mkdir $(OUTPUT_DIR) ; fi
@@ -37,7 +37,7 @@ mathlib.o: mathlib.cpp mathlib.h
 test.o: test.cpp
 	$(CC) $(CFLAGS) -c test.cpp -o test.o
 doc:
-	doxgen
+	doxygen
 	
 install: $(OUTPUT_DIR)/$(OUTPUT_FILE)
 	cp $(OUTPUT_DIR)/$(OUTPUT_FILE) /usr/bin
