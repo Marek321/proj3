@@ -1,6 +1,6 @@
 /**
  * Kolekce funkcí určených pro vyhodnocení řetezce jako matematický výraz
- * obsahující binární či unánrí operace.
+ * obsahující binární či unární operace.
  *
  * @file controller.cpp
  * @author David Kovařík ( xkovar66 )
@@ -12,17 +12,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <locale.h>
 #include "mathlib.h"
+
 
 /**
  * Struktura popisující matematickou operaci (binární | unární)
  */
 typedef struct operation {
-    int operation;
-    double operandA;
-    double operandB;
+    int operation; /**< Identifikátor operace */
+    double operandA; /**< První operand operace*/
+    double operandB; /**< Druhý operand operace (pokud není potřeba, měl by být nastaven na NAN) */
 } TOperation;
-double execute(const char* expression);
+
+/**
+ * Zpracuje předaný řetezec jako matematický výraz, vyhodnotí jej a vrácí
+ * číselnou hodnotu výsledku.
+ * @param expression Řetezec obsahující matematický výraz
+ * @param errcode Chybový kód vyhodnocování operacew
+ * @return Výsledek výrazu
+ */
+double execute(const char* expression, int *errcode);
 
 /**
  * Chybové stavy
@@ -36,7 +46,7 @@ enum eCodes {
 
 /**
  * Zpracuje předaný řetezec jako matematický výraz, vyhodnotí jej a vrácí
- * číselnou hodnotu výsledku
+ * číselnou hodnotu výsledku.
  * @param expression Řetezec obsahující matematický výraz
  * @param errcode Chybový kód vyhodnocování operacew
  * @return Výsledek výrazu
@@ -94,6 +104,8 @@ int main(int argc, char** argv) {
  */
 
 double execute(const char* expression, int *errcode) {
+    //nastaviit lokali
+    setlocale(LC_ALL, "C");
 
     TOperation op; //struktura popisujici operaci
     int strlenght; //delka (zbytku) vyrazu
@@ -187,7 +199,7 @@ int eval(TOperation *op, double *result) {
             break;
         case '!':
         {
-            if (op->operandA < 0) { //faktorial je definovan pro n > 0
+            if (op->operandA < 0) { //faktorial je definovan pro n > 0;
                 *result = NAN;
                 return INVALID_MATHEXP;
             }
@@ -196,6 +208,13 @@ int eval(TOperation *op, double *result) {
                 *result = NAN;
                 return INVALID_MATHEXP;
             }
+            
+            //otestuje, zda jsou operandy cela cisla
+            if (!isIntiger(op->operandA)) { //otestuje operandA
+                *result = NAN;
+                return INVALID_MATHEXP;
+            }
+            
             
             *result = fact(op->operandA);
 
